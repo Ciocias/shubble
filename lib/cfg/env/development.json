@@ -1,0 +1,45 @@
+{
+  "port": 3000,
+  "log": 
+  {
+    "levels":
+    {
+      "error": 0,
+      "info": 1,
+      "debug": 2
+    },
+    
+    "colors":
+    {
+      "error": "red",
+      "info": "green",
+      "debug": "cyan"
+    },
+    
+    "console": 
+    {
+      "level": "debug"
+    },
+    
+    "error":
+    {
+      "level": "error",
+      "name": "errorlog",
+      "file": "error.log"
+    },
+    
+    "info":
+    {
+      "level": "info",
+      "name": "infolog",
+      "file": "info.log"
+    },
+    
+    "debug":
+    {
+      "level": "debug",
+      "name": "debuglog",
+      "file": "debug.log"
+    }
+  }
+}
