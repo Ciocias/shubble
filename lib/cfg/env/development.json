@@ -41,5 +41,17 @@
       "name": "debuglog",
       "file": "debug.log"
     }
+  },
+  "html":
+  {
+    "layout":
+    {
+      "title": "shubble"
+    },
+    "index":
+    {
+      "title": "shubble",
+      "welcome": "Welcome, start by clicking on the next button"
+    }
   }
 }
