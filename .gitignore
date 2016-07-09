@@ -8,3 +8,7 @@ jspm_packages
 
 # Optional npm cache directory
 .npm
+
+# Sublime project files
+*.sublime-project
+*.sublime-workspace
