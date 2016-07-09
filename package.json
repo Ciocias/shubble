@@ -1,0 +1,24 @@
+{
+  "name": "shubble",
+  "version": "0.0.1",
+  "description": "Simple REST service to post a random image and quote on twitter",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "node bin/preinstall.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubbleapp/shubble.git"
+  },
+  "author": "shubble",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shubbleapp/shubble/issues"
+  },
+  "homepage": "https://github.com/shubbleapp/shubble#readme",
+  "bin": {
+    "shubble": "preinstall.js"
+  },
+  "keywords": []
+}
