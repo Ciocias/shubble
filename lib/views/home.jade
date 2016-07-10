@@ -3,11 +3,8 @@ extends ./layout
 block body
   .w3-container.w3-center
     div.w3-card-8.w3-white
-      h3= image.alt
-      img(src=image.src alt=image.alt)
-      div.w3-container.w3-center
-        h2= quote.text
-        a(href=quote.link)= quote.author
+      span#pic
+      span#quote.w3-container.w3-center
     footer.w3-container
       form(method='POST' action='http://127.0.0.1:3000/tweet')
         input(type='hidden' name='link' value=image.src)
