@@ -1,0 +1,77 @@
+{
+  "port": 3000,
+
+  "orion":
+  {
+    "url": "http://127.0.0.1",
+    "port": 1026,
+    "version": "v1"
+  },
+
+  "log": 
+  {
+    "levels":
+    {
+      "error": 0,
+      "info": 1,
+      "debug": 2
+    },
+    
+    "colors":
+    {
+      "error": "red",
+      "info": "green",
+      "debug": "cyan"
+    },
+    
+    "console": 
+    {
+      "level": "debug"
+    },
+    
+    "error":
+    {
+      "level": "error",
+      "name": "errorlog",
+      "file": "error.log"
+    },
+    
+    "info":
+    {
+      "level": "info",
+      "name": "infolog",
+      "file": "info.log"
+    },
+    
+    "debug":
+    {
+      "level": "debug",
+      "name": "debuglog",
+      "file": "debug.log"
+    }
+  },
+
+  "html":
+  {
+    "layout":
+    {
+      "title": "shubble"
+    },
+
+    "index":
+    {
+      "title": "shubble",
+      "welcome": "Welcome, sign in with twitter first!"
+    }
+  },
+
+  "tags":
+  [
+    "Star",
+    "Galaxy",
+    "Planet",
+    "Nebulae",
+    "Supernova",
+    "unknown"
+  ]
+}
