@@ -1,5 +1,13 @@
 {
   "port": 3000,
+
+  "orion":
+  {
+    "url": "http://127.0.0.1",
+    "port": 1026,
+    "version": "v1"
+  },
+
   "log": 
   {
     "levels":
@@ -42,16 +50,28 @@
       "file": "debug.log"
     }
   },
+
   "html":
   {
     "layout":
     {
       "title": "shubble"
     },
+
     "index":
     {
       "title": "shubble",
-      "welcome": "Welcome, start by clicking on the next button"
+      "welcome": "Welcome, sign in with twitter first!"
     }
-  }
+  },
+
+  "tags":
+  [
+    "Star",
+    "Galaxy",
+    "Planet",
+    "Nebulae",
+    "Supernova",
+    "unknown"
+  ]
 }
