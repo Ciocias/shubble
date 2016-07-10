@@ -28,7 +28,7 @@ function get_infos (callback)
         var images    = {};
         var contents  = cheerio.load(body)('div #ListBlock').children();
 
-        let id = 0;
+        var id = 0;
 
         contents.map (function(el) 
         {
