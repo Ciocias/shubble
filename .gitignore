@@ -12,3 +12,6 @@ jspm_packages
 # Sublime project files
 *.sublime-workspace
 # *.sublime-project
+
+# App secrets
+secret.json
