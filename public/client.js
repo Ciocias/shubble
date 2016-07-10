@@ -1,6 +1,27 @@
 var socket = io.connect('http://127.0.0.1:3000');
 
-function request_tweet () {};
+function request_tweet () {
+
+  var link = document.getElementById('pic').getElementsByTagName('img')[0].src;
+  
+  var cookies = {
+    oauth_token: document.cookie.oauth_token,
+    oauth_verifier: document.cookie.oauth_verifier
+  };
+
+  var quote = {
+    text: document.getElementById('quote').getElementsByTagName('h2')[0].innerHTML,
+    author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
+  };
+
+  socket.emit('tweet_request',
+    {
+      link: link,
+      cookies: cookies,
+      quote: quote
+
+    });
+};
 
 function ready_image_cb (data) {
 
@@ -32,9 +53,11 @@ function ready_quote_cb (data) {
   quote.appendChild(link);  
 };
 
-function ready_tweet_cb (data) {
-  //data.result maybe error
-  alert(data.result);
+function ready_tweet_cb (err) {
+  if (err)
+    alert("Cannot post tweet");
+  else
+    alert("Tweet posted!");
 };
 
 socket.on('image_ready', ready_image_cb);
