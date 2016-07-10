@@ -10,5 +10,5 @@ jspm_packages
 .npm
 
 # Sublime project files
-*.sublime-project
 *.sublime-workspace
+# *.sublime-project
