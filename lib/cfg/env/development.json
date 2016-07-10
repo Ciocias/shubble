@@ -74,5 +74,26 @@
     "Nebulae",
     "Supernova",
     "unknown"
-  ]
+  ],
+
+  "events":
+  {
+    "image":
+    {
+      "request": "image-request",
+      "ready": "image-ready"
+    },
+    
+    "quote":
+    {
+      "request": "quote-request",
+      "ready": "quote-ready"
+    },
+    
+    "tweet":
+    {
+      "request": "tweet-request",
+      "ready": "tweet-ready"
+    }
+  }
 }
