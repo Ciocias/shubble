@@ -1,8 +1,14 @@
-var socket = io.connect('http://127.0.0.1:3000');
-
 function request_tweet () {
 
-  var link = document.getElementById('pic').getElementsByTagName('img')[0].src;
+  var img = document.getElementById('pic').getElementsByTagName('img')[0];
+  
+  if (img === undefined)
+  {
+    alert('Image is missing, reloading...');
+    socket.emit('image-request');
+  }
+
+  var link = img.getAttribute('src');
   
   var cookies = {
     oauth_token: document.cookie.oauth_token,
@@ -14,7 +20,7 @@ function request_tweet () {
     author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
   };
 
-  socket.emit('tweet_request',
+  socket.emit('tweet-request',
     {
       link: link,
       cookies: cookies,
@@ -60,11 +66,93 @@ function ready_tweet_cb (err) {
     alert("Tweet posted!");
 };
 
-socket.on('image_ready', ready_image_cb);
-socket.on('quote_ready', ready_quote_cb);
-socket.on('tweet_ready', ready_tweet_cb);
+function handle_auth_error ()
+{
+  // redirect to root
+  window.location.assign("http://127.0.0.1:3000")
+}
 
-socket.emit('image_request');
-socket.emit('quote_request');
+function getCookie(c_name)
+{
+  var i,x,y,ARRcookies=document.cookie.split(";");
 
-document.getElementById('sharebtn').addEventListener(request_tweet);
+  for (i=0;i<ARRcookies.length;i++)
+  {
+    x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+    y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+    x=x.replace(/^\s+|\s+$/g,"");
+    if (x==c_name)
+    {
+        return unescape(y);
+    }
+   }
+}
+
+var socket = io.connect('http://localhost:3000/');
+
+socket.on('image-ready', ready_image_cb);
+socket.on('quote-ready', ready_quote_cb);
+socket.on('tweet-ready', ready_tweet_cb);
+
+socket.on('auth-error', handle_auth_error);
+
+socket.emit('image-request');
+socket.emit('quote-request');
+
+var reload_image = document.createElement('button');
+reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
+reload_image.innerHTML = 'I';
+
+reload_image.addEventListener('click', () => {
+  document.getElementById('pic').innerHTML = '';
+
+  socket.emit('image-request');
+});
+
+var reload_quote = document.createElement('button');
+reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
+reload_quote.innerHTML = 'Q';
+
+reload_quote.addEventListener('click', () => {
+  document.getElementById('quote').innerHTML = '';
+
+  socket.emit('quote-request');
+});
+
+var share = document.createElement('button');
+share.setAttribute('class', 'w3-btn-floating-large w3-right w3-green');
+share.innerHTML = 'Share';
+share.addEventListener('click', () => {
+
+  var img = document.getElementById('pic').getElementsByTagName('img')[0];
+  
+  if (img === undefined)
+  {
+    alert('Image is missing, reloading...');
+    socket.emit('image-request');
+  }
+
+  var link = img.getAttribute('src');
+  
+  var cookies = {
+    oauth_token: getCookie('oauth_token'),
+    oauth_verifier: getCookie('oauth_verifier')
+  };
+
+  var quote = {
+    text: document.getElementById('quote').getElementsByTagName('h2')[0].innerHTML,
+    author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
+  };
+
+  socket.emit('tweet-request',
+    {
+      link: link,
+      cookies: cookies,
+      quote: quote
+
+    });
+});
+
+document.body.getElementsByTagName('footer')[0].appendChild(reload_image);
+document.body.getElementsByTagName('footer')[0].appendChild(reload_quote);
+document.body.getElementsByTagName('footer')[0].appendChild(share);
