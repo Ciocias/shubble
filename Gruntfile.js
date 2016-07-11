@@ -22,4 +22,5 @@ module.exports = function (grunt)
   grunt.loadNpmTasks('grunt-nodemon');
 
   grunt.registerTask('default', [ 'jshint', 'orion', 'nodemon' ]);
+  grunt.registerTask('check', [ 'jshint', 'clean' ]);
 };
