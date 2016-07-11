@@ -13,10 +13,14 @@ module.exports = function (grunt)
     out.on('error', done);
     out.on('open', function()
     {
-      var child = child_process.spawn('docker-compose', [ 'up' ], {
-        stdio: [out, out]
-      });
-      child.on('exit', done);
+      var child = child_process.spawn(
+        'docker-compose',
+        [ 'up' ],
+        {
+          detached: true,
+          stdio: [out, out]
+        }).unref();
+      done();
     });
 
   });
