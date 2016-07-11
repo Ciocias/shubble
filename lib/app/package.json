@@ -16,6 +16,7 @@
     "express": "^4.14.0",
     "forismatic-node": "^1.1.4",
     "jade": "^1.11.0",
-    "random-js": "^1.0.8"
+    "random-js": "^1.0.8",
+    "socket.io": "^1.4.8"
   }
 }
