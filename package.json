@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "node bin/preinstall.js",
-    "start": "nodemon index.js"
+    "start": "grunt"
   },
   "repository": {
     "type": "git",
