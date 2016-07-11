@@ -46,8 +46,9 @@ function ready_image_cb (data) {
 
 function ready_quote_cb (data) {
   
-  var hh = (document.createElement('h2'));
-  hh.innerHTML = data.text;
+  var p = (document.createElement('p'));
+  p.innerHTML = data.text;
+  p.contentEditable = true;
   
   var link = document.createElement('a');
   link.innerHTML = data.author;
@@ -55,7 +56,7 @@ function ready_quote_cb (data) {
 
   var quote = document.getElementById('quote');
 
-  quote.appendChild(hh);
+  quote.appendChild(p);
   quote.appendChild(link);  
 };
 
@@ -140,7 +141,7 @@ share.addEventListener('click', () => {
   };
 
   var quote = {
-    text: document.getElementById('quote').getElementsByTagName('h2')[0].innerHTML,
+    text: document.getElementById('quote').getElementsByTagName('p')[0].innerHTML,
     author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
   };
 
