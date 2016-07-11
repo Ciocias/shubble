@@ -1,19 +1,30 @@
 {
-  "port": 8000,
-  "log":
+  "host": "http://shubble.herokuapp.com",
+  "port": 5798,
+
+  "orion":
+  {
+    "url": "http://shubble.herokuapp.com",
+    "port": 1026,
+    "version": "v1"
+  },
+
+  "log": 
   {
     "levels":
     {
       "error": 0,
-      "info": 1
+      "info": 1,
+      "debug": 2
     },
-
+    
     "colors":
     {
       "error": "red",
-      "info": "green"
+      "info": "green",
+      "debug": "cyan"
     },
-
+    
     "console": 
     {
       "level": "error"
@@ -31,6 +42,58 @@
       "level": "info",
       "name": "infolog",
       "file": "info.log"
+    },
+    
+    "debug":
+    {
+      "level": "debug",
+      "name": "debuglog",
+      "file": "debug.log"
+    }
+  },
+
+  "html":
+  {
+    "layout":
+    {
+      "title": "shubble"
+    },
+
+    "index":
+    {
+      "title": "shubble",
+      "welcome": "Welcome, sign in with twitter first!"
+    }
+  },
+
+  "tags":
+  [
+    "Star",
+    "Galaxy",
+    "Planet",
+    "Nebulae",
+    "Supernova",
+    "unknown"
+  ],
+
+  "events":
+  {
+    "image":
+    {
+      "request": "image-request",
+      "ready": "image-ready"
+    },
+    
+    "quote":
+    {
+      "request": "quote-request",
+      "ready": "quote-ready"
+    },
+    
+    "tweet":
+    {
+      "request": "tweet-request",
+      "ready": "tweet-ready"
     }
   }
 }
