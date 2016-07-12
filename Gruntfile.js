@@ -10,7 +10,9 @@ module.exports = function (grunt)
       myFiles:
       [
         'Gruntfile.js',
-        './lib/*/*.js'
+        './bin/*.js',
+        './lib/*/*.js',
+        './public/*.js'
       ]
     },
 
@@ -22,6 +24,6 @@ module.exports = function (grunt)
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', [ 'jshint', 'orion', 'nodemon' ]);
+  grunt.registerTask('default', [ 'jshint', 'nodemon' ]);
   grunt.registerTask('check', [ 'jshint', 'clean' ]);
 };
