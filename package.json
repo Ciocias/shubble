@@ -1,7 +1,7 @@
 {
   "name": "shubble",
   "version": "0.0.1",
-  "description": "Simple web & REST service to post a random image and quote on twitter",
+  "description": "Simple REST service to post a random image and quote on twitter",
   "main": "index.js",
   "scripts": {
     "preinstall": "node bin/preinstall.js",
