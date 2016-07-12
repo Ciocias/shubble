@@ -143,7 +143,7 @@ function fetch_data ()
     {
       if (!err)
       {
-        log.info('pushing data to database...');
+        log.info('pushing to database...');
       }
       else
       {
