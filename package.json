@@ -4,8 +4,7 @@
   "description": "Simple Web & REST service to post a random 'image and quote' tweet",
   "main": "index.js",
   "scripts": {
-    "preinstall": "node bin/preinstall.js",
-    "start": "grunt; node index.js; grunt kill"
+    "preinstall": "node bin/preinstall.js"
   },
   "repository": {
     "type": "git",

@@ -1,66 +1,79 @@
-function request_tweet () {
-
+function request_tweet ()
+{
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
   
   if (img === undefined)
   {
     alert('Image is missing, reloading...');
     socket.emit('image-request');
+    return;
   }
 
   var link = img.getAttribute('src');
   
   var cookies = {
-    oauth_token: document.cookie.oauth_token,
-    oauth_verifier: document.cookie.oauth_verifier
+    oauth_token: get_cookie('oauth_token'),
+    oauth_verifier: get_cookie('oauth_verifier')
   };
 
   var quote = {
-    text: document.getElementById('quote').getElementsByTagName('h2')[0].innerHTML,
+    text: document.getElementById('quote').getElementsByTagName('p')[0].innerHTML,
     author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
   };
 
   socket.emit('tweet-request',
-    {
-      link: link,
-      cookies: cookies,
-      quote: quote
-
-    });
+  {
+    link: link,
+    cookies: cookies,
+    quote: quote
+  });
 };
 
-function ready_image_cb (data) {
+function request_image_callback ()
+{
+  document.getElementById('pic').innerHTML = '';
+  socket.emit('image-request');
+};
 
-  var hhh = document.createElement('h3');
-  hhh.innerHTML = data.alt;
+function request_quote_callback ()
+{
+  document.getElementById('quote').innerHTML = '';
+  socket.emit('quote-request');
+};
+
+function ready_image_callback (data)
+{
+  var title = document.createElement('h3');
+  title.innerHTML = data.alt;
   
-  var img = document.createElement('img');
-  img.setAttribute('src', data.src);
-  img.setAttribute('alt', data.alt);
+  var image = document.createElement('img');
+  image.setAttribute('src', data.src);
+  image.setAttribute('alt', data.alt);
   
   var pic = document.getElementById('pic');
 
-  pic.appendChild(hhh);
-  pic.appendChild(img);
+  pic.appendChild(title);
+  pic.appendChild(image);
 };
 
-function ready_quote_cb (data) {
-  
-  var p = (document.createElement('p'));
-  p.innerHTML = data.text;
-  p.contentEditable = true;
+function ready_quote_callback (data)
+{  
+  var quote = (document.createElement('p'));
+  quote.contentEditable = true;
+  quote.innerHTML = data.text;
   
   var link = document.createElement('a');
-  link.innerHTML = data.author;
   link.setAttribute('href', data.link);
+  link.innerHTML = data.author;
 
-  var quote = document.getElementById('quote');
+  var quote_span = document.getElementById('quote');
 
-  quote.appendChild(p);
-  quote.appendChild(link);  
+  quote_span.appendChild(quote);
+  quote_span.appendChild(link);  
 };
 
-function ready_tweet_cb (err) {
+function ready_tweet_callback (err)
+{
   if (err)
     alert("Cannot post tweet");
   else
@@ -73,7 +86,7 @@ function handle_auth_error ()
   window.location.assign("http://127.0.0.1:3000")
 }
 
-function getCookie(c_name)
+function get_cookie(c_name)
 {
   var i,x,y,ARRcookies=document.cookie.split(";");
 
@@ -89,71 +102,46 @@ function getCookie(c_name)
    }
 }
 
+// Define a socket.io client object
 var socket = io.connect('http://localhost:3000/');
 
-socket.on('image-ready', ready_image_cb);
-socket.on('quote-ready', ready_quote_cb);
-socket.on('tweet-ready', ready_tweet_cb);
+// Data ready callbacks
+socket.on('image-ready', ready_image_callback);
+socket.on('quote-ready', ready_quote_callback);
+socket.on('tweet-ready', ready_tweet_callback);
 
 socket.on('auth-error', handle_auth_error);
 
+// Send image and quote events requests
 socket.emit('image-request');
 socket.emit('quote-request');
 
+// Reload image button
 var reload_image = document.createElement('button');
+
 reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
 reload_image.innerHTML = 'I';
 
-reload_image.addEventListener('click', () => {
-  document.getElementById('pic').innerHTML = '';
+reload_image.addEventListener('click', request_image_callback);
 
-  socket.emit('image-request');
-});
-
+// Reload quote button
 var reload_quote = document.createElement('button');
+
 reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
 reload_quote.innerHTML = 'Q';
 
-reload_quote.addEventListener('click', () => {
-  document.getElementById('quote').innerHTML = '';
+reload_quote.addEventListener('click', request_quote_callback);
 
-  socket.emit('quote-request');
-});
-
+// Share button
 var share = document.createElement('button');
+
 share.setAttribute('class', 'w3-btn-floating-large w3-right w3-green');
-share.innerHTML = 'Share';
-share.addEventListener('click', () => {
+share.innerHTML = 'S';
 
-  var img = document.getElementById('pic').getElementsByTagName('img')[0];
-  
-  if (img === undefined)
-  {
-    alert('Image is missing, reloading...');
-    socket.emit('image-request');
-  }
+share.addEventListener('click', request_tweet);
 
-  var link = img.getAttribute('src');
-  
-  var cookies = {
-    oauth_token: getCookie('oauth_token'),
-    oauth_verifier: getCookie('oauth_verifier')
-  };
-
-  var quote = {
-    text: document.getElementById('quote').getElementsByTagName('p')[0].innerHTML,
-    author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
-  };
-
-  socket.emit('tweet-request',
-    {
-      link: link,
-      cookies: cookies,
-      quote: quote
-
-    });
-});
-
-document.body.getElementsByTagName('footer')[0].appendChild(reload_image);
-document.body.getElementsByTagName('footer')[0].appendChild(reload_quote);
-document.body.getElementsByTagName('footer')[0].appendChild(share);
+// Append action buttons to bottom inside footer
+var footer = document.body.getElementsByTagName('footer')[0];
+footer.appendChild(reload_image);
+footer.appendChild(reload_quote);
+footer.appendChild(share);
