@@ -3,7 +3,7 @@ var cp = require('child_process');
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('orion-start', function ()
+  grunt.registerTask('orion-start', 'Start orion docker container', function ()
   {
     // Tells grunt that we're an async task
     var done = this.async();

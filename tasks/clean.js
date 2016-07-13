@@ -21,7 +21,7 @@ function delete_all (err, list)
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('clean', function ()
+  grunt.registerTask('clean', 'Delete logs and output files', function ()
   {
     // Tells grunt that we're an async task
     var done = this.async();

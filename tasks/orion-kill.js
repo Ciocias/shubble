@@ -2,7 +2,7 @@ var cp = require('child_process');
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('orion-kill', function ()
+  grunt.registerTask('orion-kill', 'Kill orion docker container', function ()
   {
     cp.spawn(
       'docker',

@@ -1,7 +1,7 @@
 module.exports = function (grunt)
 {
-  grunt.initConfig(
-  {
+  // grunt config object
+  var config = {
     pkg: grunt.file.readJSON('package.json'),
 
     jshint:
@@ -17,15 +17,30 @@ module.exports = function (grunt)
     },
 
     nodemon: { script: '.' }
-  });
+  };
+
+  grunt.initConfig(config);
 
   grunt.loadTasks('tasks');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', [ 'jshint', 'mongo-start', 'orion-start' ]);
-  grunt.registerTask('develop', [ 'jshint', 'mongo-start', 'orion-start', 'nodemon' ]);
-  grunt.registerTask('kill', [ 'orion-kill', 'mongo-kill' ]);
-  grunt.registerTask('remove', [ 'orion-remove', 'mongo-remove' ]);
+  grunt.registerTask( 'default', [ 'jshint', 'mongo-start', 'orion-start' ]);
+
+  // custom tasks
+  grunt.registerTask( 'develop',
+    'Run through nodemon, manual docker cleanup needed',
+    [ 'jshint', 'mongo-start', 'orion-start', 'nodemon' ]
+  );
+
+  grunt.registerTask( 'kill',
+    'Kill docker containers',
+    [ 'orion-kill', 'mongo-kill' ]
+  );
+
+  grunt.registerTask( 'remove',
+    'Remove docker containers',
+    [ 'orion-remove', 'mongo-remove' ]
+  );
 };

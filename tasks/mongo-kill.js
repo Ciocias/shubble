@@ -2,7 +2,7 @@ var cp = require('child_process');
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('mongo-kill', function ()
+  grunt.registerTask('mongo-kill', 'Kill mongo docker container', function ()
   {
     cp.spawn(
       'docker',
