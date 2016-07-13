@@ -9,11 +9,15 @@ var app = require('_/app');
 var server = app.listen(cfg.port);
 log.info('app listening on port', cfg.port);
 
-// SIGINT makes npm chain of commands crash, so we handle SIGQUIT temporary
-// even if it crashes the app, SIGQUIT allow the npm start script to continue
-process.on('SIGQUIT', () => {
+// Close express server on exit
+function on_close ()
+{
   server.close();
 
   log.info('bye bye!');
   process.exit();
-});
+}
+
+// Catch ctrl+C and ctrl+\
+process.on('SIGINT', on_close);
+process.on('SIGQUIT', on_close);
