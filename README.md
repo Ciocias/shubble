@@ -1,6 +1,9 @@
 # shubble
 Simple Web & REST service to post a random 'image and quote' tweet
 
+## REST api
+**todo**
+
 ## usage
 
 - run default task to create docker containers (mongodb, fiware/orion)
