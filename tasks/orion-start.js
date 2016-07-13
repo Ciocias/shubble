@@ -1,5 +1,5 @@
 var fs = require('fs');
-var child_process = require('child_process');
+var cp = require('child_process');
 
 module.exports = function (grunt)
 {
@@ -13,15 +13,22 @@ module.exports = function (grunt)
     out.on('error', done);
     out.on('open', function()
     {
-      var child = child_process.spawn(
-        'docker-compose',
-        [ 'up' ],
+      var child = cp.spawn(
+        'docker',
+        [
+          'run',
+          '-d',
+          '--name', 'orion',
+          '-p', '1026:1026',
+          '--link', 'mongo:mongodb',
+          'fiware/orion',
+          '-dbhost', 'mongodb'
+        ],
         {
           detached: true,
           stdio: [out, out]
         }).unref();
       done();
     });
-
   });
 };

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "preinstall": "node bin/preinstall.js",
-    "start": "grunt"
+    "start": "grunt; node index.js && grunt kill"
   },
   "repository": {
     "type": "git",

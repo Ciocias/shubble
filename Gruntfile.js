@@ -11,6 +11,7 @@ module.exports = function (grunt)
       [
         'Gruntfile.js',
         './bin/*.js',
+        './tasks/*.js',
         './lib/*/*.js'
       ]
     },
@@ -23,6 +24,8 @@ module.exports = function (grunt)
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', [ 'jshint', 'orion', 'nodemon' ]);
-  grunt.registerTask('check', [ 'jshint', 'clean' ]);
+  grunt.registerTask('default', [ 'jshint', 'mongo', 'orion' ]);
+  grunt.registerTask('dev', [ 'jshint', 'mongo', 'orion', 'nodemon' ]);
+  grunt.registerTask('kill', [ 'orion-kill', 'mongo-kill' ]);
+  grunt.registerTask('remove', [ 'mongo-remove', 'orion-remove' ]);
 };
