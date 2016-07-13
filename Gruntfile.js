@@ -21,14 +21,15 @@ module.exports = function (grunt)
 
   grunt.initConfig(config);
 
+  // register user and npm provided tasks
   grunt.loadTasks('tasks');
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
 
+  // custom tasks
   grunt.registerTask( 'default', [ 'jshint', 'mongo-start', 'orion-start' ]);
 
-  // custom tasks
   grunt.registerTask( 'develop',
     'Run through nodemon, manual docker cleanup needed',
     [ 'jshint', 'mongo-start', 'orion-start', 'nodemon' ]

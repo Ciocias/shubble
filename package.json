@@ -1,11 +1,11 @@
 {
   "name": "shubble",
   "version": "0.0.1",
-  "description": "Simple REST service to post a random image and quote on twitter",
+  "description": "Simple Web & REST service to post a random 'image and quote' tweet",
   "main": "index.js",
   "scripts": {
     "preinstall": "node bin/preinstall.js",
-    "start": "grunt; node index.js && grunt kill"
+    "start": "grunt; node index.js; grunt kill"
   },
   "repository": {
     "type": "git",
@@ -17,17 +17,14 @@
     "url": "https://github.com/shubbleapp/shubble/issues"
   },
   "homepage": "https://github.com/shubbleapp/shubble#readme",
-  "bin": {
-    "shubble": "preinstall.js"
-  },
   "keywords": [],
   "dependencies": {
+    "request": "^2.73.0",
     "async": "^2.0.0-rc.6",
     "cheerio": "^0.20.0",
+    "nodemon": "^1.9.2",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^1.0.0",
-    "grunt-nodemon": "^0.4.2",
-    "nodemon": "^1.9.2",
-    "request": "^2.73.0"
+    "grunt-nodemon": "^0.4.2"
   }
 }
