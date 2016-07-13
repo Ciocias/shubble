@@ -24,8 +24,8 @@ module.exports = function (grunt)
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', [ 'jshint', 'mongo', 'orion' ]);
-  grunt.registerTask('dev', [ 'jshint', 'mongo', 'orion', 'nodemon' ]);
+  grunt.registerTask('default', [ 'jshint', 'mongo-start', 'orion-start' ]);
+  grunt.registerTask('develop', [ 'jshint', 'mongo-start', 'orion-start', 'nodemon' ]);
   grunt.registerTask('kill', [ 'orion-kill', 'mongo-kill' ]);
-  grunt.registerTask('remove', [ 'mongo-remove', 'orion-remove' ]);
+  grunt.registerTask('remove', [ 'orion-remove', 'mongo-remove' ]);
 };
