@@ -1,12 +1,11 @@
-function request_tweet ()
+function request_tweet (socket, callback)
 {
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
   
   if (img === undefined)
   {
     alert('Image is missing, reloading...');
-    socket.emit('image-request');
-    return;
+    callback(null);
   }
 
   var link = img.getAttribute('src');
@@ -21,24 +20,11 @@ function request_tweet ()
     author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
   };
 
-  socket.emit('tweet-request',
-  {
+  callback({
     link: link,
     cookies: cookies,
     quote: quote
   });
-};
-
-function request_image_callback ()
-{
-  document.getElementById('pic').innerHTML = '';
-  socket.emit('image-request');
-};
-
-function request_quote_callback ()
-{
-  document.getElementById('quote').innerHTML = '';
-  socket.emit('quote-request');
 };
 
 function ready_image_callback (data)
@@ -122,7 +108,10 @@ var reload_image = document.createElement('button');
 reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
 reload_image.innerHTML = 'I';
 
-reload_image.addEventListener('click', request_image_callback);
+reload_image.addEventListener('click', () => {
+  document.getElementById('pic').innerHTML = '';
+  socket.emit('image-request');
+});
 
 // Reload quote button
 var reload_quote = document.createElement('button');
@@ -130,7 +119,10 @@ var reload_quote = document.createElement('button');
 reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
 reload_quote.innerHTML = 'Q';
 
-reload_quote.addEventListener('click', request_quote_callback);
+reload_quote.addEventListener('click', () => {
+  document.getElementById('quote').innerHTML = '';
+  socket.emit('quote-request');
+});
 
 // Share button
 var share = document.createElement('button');
@@ -138,7 +130,14 @@ var share = document.createElement('button');
 share.setAttribute('class', 'w3-btn-floating-large w3-right w3-green');
 share.innerHTML = 'S';
 
-share.addEventListener('click', request_tweet);
+share.addEventListener('click', () => {
+  request_tweet(socket, (data) => {
+    if (data)
+      socket.emit('tweet-request', data);
+    else
+      socket.emit('image-request');
+  });
+});
 
 // Append action buttons to bottom inside footer
 var footer = document.body.getElementsByTagName('footer')[0];
