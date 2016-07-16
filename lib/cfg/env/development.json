@@ -104,6 +104,12 @@
       "ready": "quote-ready"
     },
     
+    "name":
+    {
+      "request": "name-request",
+      "ready": "name-ready"
+    },
+
     "tweet":
     {
       "request": "tweet-request",

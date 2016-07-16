@@ -58,6 +58,17 @@ function ready_quote_callback (data)
   quote_span.appendChild(link);  
 };
 
+function ready_name_callback (data)
+{
+  console.log(data);
+  var name = (document.createElement('p'));
+  name.innerHTML = data.name + ' ' + data.screen_name;
+
+  var name_span = document.getElementById('name');
+
+  name_span.appendChild(name);
+};
+
 function ready_tweet_callback (err)
 {
   if (err)
@@ -95,6 +106,7 @@ var socket = io.connect('http://localhost:3000/');
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
 socket.on('quote-ready', ready_quote_callback);
+socket.on('name-ready', ready_name_callback);
 socket.on('tweet-ready', ready_tweet_callback);
 
 socket.on('auth-error', redirect_root);
@@ -125,6 +137,18 @@ reload_quote.addEventListener('click', () => {
   socket.emit('quote-request');
 });
 
+// Load name button
+var load_name = document.createElement('button');
+
+load_name.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
+load_name.innerHTML = 'C';
+
+load_name.addEventListener('click', () => {
+  document.getElementById('name').innerHTML = '';
+  socket.emit('name-request');
+  load_name.style.visibility = 'hidden';
+});
+
 // Share button
 var share = document.createElement('button');
 
@@ -137,7 +161,11 @@ share.addEventListener('click', () => {
       socket.emit('tweet-request', data);
     else
       socket.emit('image-request');
-    share.style.visibility = "hidden";
+
+    share.style.visibility = 'hidden';
+    reload_image.style.visibility = 'hidden';
+    reload_quote.style.visibility = 'hidden';
+    load_name.style.visibility = 'hidden';
   });
 });
 
@@ -155,5 +183,6 @@ home.addEventListener('click', () => {
 var footer = document.body.getElementsByTagName('footer')[0];
 footer.appendChild(reload_image);
 footer.appendChild(reload_quote);
+footer.appendChild(load_name);
 footer.appendChild(share);
 footer.appendChild(home);
