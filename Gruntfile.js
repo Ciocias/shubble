@@ -44,10 +44,9 @@ module.exports = function (grunt)
 
   // custom tasks
 
-
   grunt.registerTask( 'setup',
     'Setup development environment',
-    [ 'create', 'start' ]
+    [ 'liblink', 'create', 'start' ]
   );
 
   grunt.registerTask( 'develop',
