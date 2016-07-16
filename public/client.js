@@ -66,10 +66,10 @@ function ready_tweet_callback (err)
     alert("Tweet posted!");
 };
 
-function handle_auth_error ()
+function redirect_root ()
 {
   // redirect to root
-  window.location.assign("http://127.0.0.1:3000")
+  window.location.assign("http://127.0.0.1:3000");
 }
 
 function get_cookie(c_name)
@@ -96,7 +96,7 @@ socket.on('image-ready', ready_image_callback);
 socket.on('quote-ready', ready_quote_callback);
 socket.on('tweet-ready', ready_tweet_callback);
 
-socket.on('auth-error', handle_auth_error);
+socket.on('auth-error', redirect_root);
 
 // Send image and quote events requests
 socket.emit('image-request');
@@ -105,7 +105,7 @@ socket.emit('quote-request');
 // Reload image button
 var reload_image = document.createElement('button');
 
-reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
+reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
 reload_image.innerHTML = 'I';
 
 reload_image.addEventListener('click', () => {
@@ -116,7 +116,7 @@ reload_image.addEventListener('click', () => {
 // Reload quote button
 var reload_quote = document.createElement('button');
 
-reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-green');
+reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
 reload_quote.innerHTML = 'Q';
 
 reload_quote.addEventListener('click', () => {
@@ -127,7 +127,7 @@ reload_quote.addEventListener('click', () => {
 // Share button
 var share = document.createElement('button');
 
-share.setAttribute('class', 'w3-btn-floating-large w3-right w3-green');
+share.setAttribute('class', 'w3-btn-floating-large w3-right w3-cyan');
 share.innerHTML = 'S';
 
 share.addEventListener('click', () => {
@@ -136,7 +136,18 @@ share.addEventListener('click', () => {
       socket.emit('tweet-request', data);
     else
       socket.emit('image-request');
+    share.style.visibility = "hidden";
   });
+});
+
+// Home button
+var home = document.createElement('button');
+
+home.setAttribute('class', 'w3-btn-floating-large w3-right w3-cyan');
+home.innerHTML = 'H';
+
+home.addEventListener('click', () => {
+  redirect_root();
 });
 
 // Append action buttons to bottom inside footer
@@ -144,3 +155,4 @@ var footer = document.body.getElementsByTagName('footer')[0];
 footer.appendChild(reload_image);
 footer.appendChild(reload_quote);
 footer.appendChild(share);
+footer.appendChild(home);
