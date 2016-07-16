@@ -3,7 +3,7 @@ var cp = require('child_process');
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('mongo-start', 'Start mongo docker container', function ()
+  grunt.registerTask('mongo-create', 'Create a mongo docker container', function ()
   {
     // Tells grunt that we're an async task
     var done = this.async();
@@ -16,8 +16,12 @@ module.exports = function (grunt)
       var child = cp.spawn(
         'docker',
         [
-          'start',
-          'mongo'
+          'run',
+          '-d',
+          '--name', 'mongo',
+          'mongo:2.6',
+          '--smallfiles',
+          '--nojournal'
         ],
         {
           detached: true,

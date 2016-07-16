@@ -16,13 +16,8 @@ module.exports = function (grunt)
       var child = cp.spawn(
         'docker',
         [
-          'run',
-          '-d',
-          '--name', 'orion',
-          '-p', '1026:1026',
-          '--link', 'mongo:mongodb',
-          'fiware/orion',
-          '-dbhost', 'mongodb'
+          'start',
+          'orion'
         ],
         {
           detached: true,

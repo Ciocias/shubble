@@ -6,7 +6,22 @@ module.exports = function (grunt)
 
     jshint:
     {
-      options: { esversion: 6 },
+      options:
+      {
+        esversion: 6,
+        forin: true,
+        freeze: true,
+        futurehostile: true,
+        maxdepth: 2,
+        noarg: true,
+        nonbsp: true,
+        nocomma: true,
+        nonew: true,
+        strict: false,
+        undef: true,
+        // env
+        node: true
+      },
       myFiles:
       [
         'Gruntfile.js',
@@ -28,11 +43,31 @@ module.exports = function (grunt)
   grunt.loadNpmTasks('grunt-nodemon');
 
   // custom tasks
-  grunt.registerTask( 'default', [ 'jshint', 'mongo-start', 'orion-start' ]);
+
+
+  grunt.registerTask( 'setup',
+    'Setup development environment',
+    [ 'create', 'start' ]
+  );
 
   grunt.registerTask( 'develop',
-    'Run through nodemon, manual docker cleanup needed',
-    [ 'jshint', 'mongo-start', 'orion-start', 'nodemon' ]
+    'Check js files and start nodemon',
+    [ 'jshint', 'start', 'nodemon' ]
+  );
+
+  grunt.registerTask( 'create',
+    'Create docker containers',
+    [ 'mongo-create', 'orion-create' ]
+  );
+
+  grunt.registerTask( 'start',
+    'Start docker containers',
+    [ 'mongo-start', 'orion-start' ]
+  );
+
+  grunt.registerTask( 'stop',
+    'Stop docker containers',
+    [ 'orion-stop', 'mongo-stop' ]
   );
 
   grunt.registerTask( 'kill',
