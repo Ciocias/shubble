@@ -3,12 +3,12 @@ var cp = require('child_process');
 
 module.exports = function (grunt)
 {
-  grunt.registerTask('mongo-start', 'Start mongo docker container', function ()
+  grunt.registerTask('orion-create', 'Create an orion docker container', function ()
   {
     // Tells grunt that we're an async task
     var done = this.async();
 
-    var out = fs.createWriteStream('mongo.out');
+    var out = fs.createWriteStream('orion.out');
 
     out.on('error', done);
     out.on('open', function()
@@ -16,8 +16,13 @@ module.exports = function (grunt)
       var child = cp.spawn(
         'docker',
         [
-          'start',
-          'mongo'
+          'run',
+          '-d',
+          '--name', 'orion',
+          '-p', '1026:1026',
+          '--link', 'mongo:mongodb',
+          'fiware/orion',
+          '-dbhost', 'mongodb'
         ],
         {
           detached: true,
