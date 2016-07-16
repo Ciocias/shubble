@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "download": "^5.0.2",
-    "twitter": "^1.3.0"
+    "download": "^5.0.2"
   }
 }

@@ -10,10 +10,10 @@ function request_tweet (socket, callback)
 
   var link = img.getAttribute('src');
   
-  var cookies = {
-    oauth_token: get_cookie('oauth_token'),
-    oauth_verifier: get_cookie('oauth_verifier')
-  };
+  //var cookies = {
+  //  oauth_token: get_cookie('oauth_token'),
+  //  oauth_verifier: get_cookie('oauth_verifier')
+  //};
 
   var quote = {
     text: document.getElementById('quote').getElementsByTagName('p')[0].innerHTML,
@@ -22,7 +22,7 @@ function request_tweet (socket, callback)
 
   callback({
     link: link,
-    cookies: cookies,
+    //cookies: cookies,
     quote: quote
   });
 };
@@ -72,6 +72,7 @@ function redirect_root ()
   window.location.assign("http://127.0.0.1:3000");
 }
 
+/*
 function get_cookie(c_name)
 {
   var i,x,y,ARRcookies=document.cookie.split(";");
@@ -87,7 +88,7 @@ function get_cookie(c_name)
     }
    }
 }
-
+*/
 // Define a socket.io client object
 var socket = io.connect('http://localhost:3000/');
 
