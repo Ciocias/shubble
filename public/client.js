@@ -62,7 +62,7 @@ function ready_name_callback (data)
 {
   console.log(data);
   var name = (document.createElement('p'));
-  name.innerHTML = data.name + ' ' + data.screen_name;
+  name.innerHTML = data.name + ' @' + data.screen_name;
 
   var name_span = document.getElementById('name');
 
