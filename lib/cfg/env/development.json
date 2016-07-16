@@ -6,7 +6,7 @@
   {
     "maxAge": 900000,
     "httpOnly": false
-  }
+  },
 
   "orion":
   {
