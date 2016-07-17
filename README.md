@@ -3,8 +3,8 @@ Simple Web & REST service to post a random 'image and quote' tweet
 
 ## REST api
 
-Method                  | Url           | Descripton                                 |
------------------------ | ------------- | ------------------------------------------ |
+Method                 | Url           | Description                                |
+---------------------- | ------------- | ------------------------------------------ |
 [Get](#get-apiimage)   | /api/image    | Retrieve a random image                    |
 [Post](#post-apiimage) | /api/image    | Retrieve a random image with given **tag** |
 [Get](#get-apiquote)   | /api/quote    | Retrieve a random quote                    |
@@ -31,7 +31,7 @@ Example response
 
 ### POST /api/image
 Retrieve a random image with given **tag** ( must be specified on request body ) of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format where **src** is the image URL, **alt** is its title and **tag** is the database tag
-- 
+
 + Possible tags:
   + star
   + galaxy

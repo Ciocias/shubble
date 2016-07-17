@@ -146,7 +146,7 @@ load_name.innerHTML = 'C';
 load_name.addEventListener('click', () => {
   document.getElementById('name').innerHTML = '';
   socket.emit('name-request');
-  load_name.style.visibility = 'hidden';
+  //load_name.style.visibility = 'hidden';
 });
 
 // Share button
