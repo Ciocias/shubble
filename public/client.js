@@ -1,7 +1,6 @@
 function request_tweet (socket, callback)
 {
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
-  
   if (img === undefined)
   {
     alert('Image is missing, reloading...');
@@ -10,20 +9,12 @@ function request_tweet (socket, callback)
 
   var link = img.getAttribute('src');
   
-  //var cookies = {
-  //  oauth_token: get_cookie('oauth_token'),
-  //  oauth_verifier: get_cookie('oauth_verifier')
-  //};
-
-  var quote = {
-    text: document.getElementById('quote').getElementsByTagName('p')[0].innerHTML,
-    author: document.getElementById('quote').getElementsByTagName('a')[0].innerHTML
-  };
+  var text = document.getElementById('quote').getElementsByTagName('p')[0].innerHTML;
+  var author = document.getElementById('quote').getElementsByTagName('p')[1].innerHTML;
 
   callback({
     link: link,
-    //cookies: cookies,
-    quote: quote
+    quote: text + ' - ' + author
   });
 };
 
@@ -35,6 +26,7 @@ function ready_image_callback (data)
   var image = document.createElement('img');
   image.setAttribute('src', data.src);
   image.setAttribute('alt', data.alt);
+  image.setAttribute('class', 'w3-animate-zoom');
   
   var pic = document.getElementById('pic');
 
@@ -47,21 +39,27 @@ function ready_quote_callback (data)
   var quote = (document.createElement('p'));
   quote.contentEditable = true;
   quote.innerHTML = data.text;
+  //quote.setAttribute('class', 'w3-animate-zoom');
   
-  var link = document.createElement('a');
-  link.setAttribute('href', data.link);
-  link.innerHTML = data.author;
+  var author = document.createElement('p');
+  //link.setAttribute('href', data.link);
+  author.innerHTML = data.author;
 
   var quote_span = document.getElementById('quote');
 
   quote_span.appendChild(quote);
-  quote_span.appendChild(link);  
+  quote_span.appendChild(author);  
 };
 
 function ready_name_callback (data)
 {
-  var name = document.getElementById('name');
-  name.innerHTML = data.name + ' @' + data.screen_name;
+
+  var screen_name = (document.createElement('p'));
+  screen_name.setAttribute('align', 'right');
+  screen_name.innerHTML = '@' + data.screen_name;
+
+  var user = document.getElementById('user');
+  user.appendChild(screen_name);
 };
 
 function ready_tweet_callback (err)
@@ -109,6 +107,7 @@ socket.on('auth-error', redirect_root);
 // Send image and quote events requests
 socket.emit('image-request');
 socket.emit('quote-request');
+socket.emit('name-request');
 
 // Reload image button
 var reload_image = document.createElement('button');
@@ -132,19 +131,15 @@ reload_quote.addEventListener('click', () => {
   socket.emit('quote-request');
 });
 
-// Load name button
-var load_name = document.getElementById('name');
+// Home button
+var home = document.createElement('button');
 
-load_name.setAttribute('class', 'w3-card-4 w3-animate-zoom w3-center');
-load_name.innerHTML = 'whoami';
+home.setAttribute('class', 'w3-btn-floating-large w3-center w3-cyan');
+home.style.visibility = 'hidden';
+home.innerHTML = 'H';
 
-load_name.addEventListener('mouseenter', () => {
-  load_name.setAttribute('class', 'w3-card-4 w3-animate-zoom w3-center');
-  socket.emit('name-request');
-  //load_name.style.visibility = 'hidden';
-});
-load_name.addEventListener('mouseleave', () => {
-  load_name.innerHTML = 'hello';
+home.addEventListener('click', () => {
+  redirect_root();
 });
 
 // Share button
@@ -156,31 +151,19 @@ share.innerHTML = 'S';
 share.addEventListener('click', () => {
   request_tweet(socket, (data) => {
     if (data)
+    {
       socket.emit('tweet-request', data);
-    else
-      socket.emit('image-request');
-
-    share.style.visibility = 'hidden';
-    reload_image.style.visibility = 'hidden';
-    reload_quote.style.visibility = 'hidden';
-    load_name.style.visibility = 'hidden';
+      share.style.visibility = 'hidden';
+      reload_image.style.visibility = 'hidden';
+      reload_quote.style.visibility = 'hidden';
+      home.style.visibility = 'visible';
+    }
   });
-});
-
-// Home button
-var home = document.createElement('button');
-
-home.setAttribute('class', 'w3-btn-floating-large w3-right w3-cyan');
-home.innerHTML = 'H';
-
-home.addEventListener('click', () => {
-  redirect_root();
 });
 
 // Append action buttons to bottom inside footer
 var footer = document.body.getElementsByTagName('footer')[0];
 footer.appendChild(reload_image);
 footer.appendChild(reload_quote);
-//footer.appendChild(load_name);
 footer.appendChild(share);
 footer.appendChild(home);
