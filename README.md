@@ -1,18 +1,16 @@
-# shubble
+# shubble ![](public/shubble.ico)
 Simple Web & REST service to post a random 'image and quote' tweet
 
 ## REST api
 
+Method                  | Url           | Descripton                                 |
+----------------------- | ------------- | ------------------------------------------ |
+[Get](#get-api/image)   | /api/image    | Retrieve a random image                    |
+[Post](#post-api/image) | /api/image    | Retrieve a random image with given **tag** |
+[Get](#get-api/quote)   | /api/quote    | Retrieve a random quote                    |
+
 ### GET /api/image
-- retrive a random image of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format like
-```
-{
-  "src":"",
-  "alt":"",
-  "tag":""
-}
-```
-where *src* is the image URL, *alt* is its title and tag is the database tag
+Retrieve a random image of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format where **src** is the image URL, **alt** is its title and **tag** is the database tag
 
 Example request
 ```
@@ -32,22 +30,14 @@ Example response
 ```
 
 ### POST /api/image
-- retrive a random image with given **tag** ( must be specified on request body ) of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format like
-```
-{
-  "src":"",
-  "alt":"",
-  "tag":""
-}
-```
-where *src* is the image URL, *alt* is its title and tag is the database tag
-
+Retrieve a random image with given **tag** ( must be specified on request body ) of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format where **src** is the image URL, **alt** is its title and **tag** is the database tag
+- 
 + Possible tags:
-  +star
-  +galaxy
-  +planet
-  +nebulae
-  +supernova
+  + star
+  + galaxy
+  + planet
+  + nebulae
+  + supernova
 
 Example request
 ```
@@ -69,15 +59,7 @@ Example response
 ```
 
 ### GET /api/quote
-- retrive a random quote of [Forismatic]( http://forismatic.com/en ) in json format like
-```
-{
-  "text":"",
-  "author":"",
-  "link":""
-}
-```
-where *text* is the quote text, *author* is its author and *link* is the link to origins quote
+Retrieve a random quote of [Forismatic]( http://forismatic.com/en ) in json format where **text** is the quote text, **author** is its author and **link** is the link to origins quote
 
 Example request
 ```
