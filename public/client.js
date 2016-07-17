@@ -1,4 +1,4 @@
-function request_tweet (socket, callback)
+function request_tweet (callback)
 {
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
   if (img === undefined)
@@ -36,11 +36,9 @@ function ready_image_callback (data)
 
 function ready_quote_callback (data)
 {  
-  var quote = (document.createElement('p'));
-  quote.contentEditable = true;
+  var quote = document.createElement('p');
   quote.innerHTML = data.text;
-  //quote.setAttribute('class', 'w3-animate-zoom');
-  
+
   var author = document.createElement('p');
   //link.setAttribute('href', data.link);
   author.innerHTML = data.author;
@@ -48,7 +46,7 @@ function ready_quote_callback (data)
   var quote_span = document.getElementById('quote');
 
   quote_span.appendChild(quote);
-  quote_span.appendChild(author);  
+  quote_span.appendChild(author);
 };
 
 function ready_name_callback (data)
@@ -98,7 +96,26 @@ var socket = io.connect('http://localhost:3000/');
 
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
-socket.on('quote-ready', ready_quote_callback);
+socket.on('quote-ready', (data) => {
+  if(data.text.length > 120)
+  {
+    socket.emit('quote-request');
+    return;
+
+    /*
+    console.log(data.text);
+    console.log(data.text.length);
+
+    setTimeout(function() {
+      socket.emit('quote-request');
+      return;
+      // this code runs 3 seconds after the page loads
+    }, 3000);
+    */
+  }
+
+  ready_quote_callback(data);
+});
 socket.on('name-ready', ready_name_callback);
 socket.on('tweet-ready', ready_tweet_callback);
 
@@ -149,7 +166,7 @@ share.setAttribute('class', 'w3-btn-floating-large w3-right w3-cyan');
 share.innerHTML = 'S';
 
 share.addEventListener('click', () => {
-  request_tweet(socket, (data) => {
+  request_tweet((data) => {
     if (data)
     {
       socket.emit('tweet-request', data);
