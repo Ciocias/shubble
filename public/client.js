@@ -60,13 +60,8 @@ function ready_quote_callback (data)
 
 function ready_name_callback (data)
 {
-  console.log(data);
-  var name = (document.createElement('p'));
+  var name = document.getElementById('name');
   name.innerHTML = data.name + ' @' + data.screen_name;
-
-  var name_span = document.getElementById('name');
-
-  name_span.appendChild(name);
 };
 
 function ready_tweet_callback (err)
@@ -138,15 +133,18 @@ reload_quote.addEventListener('click', () => {
 });
 
 // Load name button
-var load_name = document.createElement('button');
+var load_name = document.getElementById('name');
 
-load_name.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
-load_name.innerHTML = 'C';
+load_name.setAttribute('class', 'w3-card-4 w3-animate-zoom w3-center');
+load_name.innerHTML = 'whoami';
 
-load_name.addEventListener('click', () => {
-  document.getElementById('name').innerHTML = '';
+load_name.addEventListener('mouseenter', () => {
+  load_name.setAttribute('class', 'w3-card-4 w3-animate-zoom w3-center');
   socket.emit('name-request');
   //load_name.style.visibility = 'hidden';
+});
+load_name.addEventListener('mouseleave', () => {
+  load_name.innerHTML = 'hello';
 });
 
 // Share button
@@ -183,6 +181,6 @@ home.addEventListener('click', () => {
 var footer = document.body.getElementsByTagName('footer')[0];
 footer.appendChild(reload_image);
 footer.appendChild(reload_quote);
-footer.appendChild(load_name);
+//footer.appendChild(load_name);
 footer.appendChild(share);
 footer.appendChild(home);
