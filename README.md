@@ -5,9 +5,9 @@ Simple Web & REST service to post a random 'image and quote' tweet
 
 Method                  | Url           | Descripton                                 |
 ----------------------- | ------------- | ------------------------------------------ |
-[Get](#get-api/image)   | /api/image    | Retrieve a random image                    |
-[Post](#post-api/image) | /api/image    | Retrieve a random image with given **tag** |
-[Get](#get-api/quote)   | /api/quote    | Retrieve a random quote                    |
+[Get](#get-apiimage)   | /api/image    | Retrieve a random image                    |
+[Post](#post-apiimage) | /api/image    | Retrieve a random image with given **tag** |
+[Get](#get-apiquote)   | /api/quote    | Retrieve a random quote                    |
 
 ### GET /api/image
 Retrieve a random image of [Hubble]( http://hubblesite.org/gallery/album/entire/ ) in json format where **src** is the image URL, **alt** is its title and **tag** is the database tag
