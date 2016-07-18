@@ -69,7 +69,7 @@ function ready_tweet_callback (err)
 function redirect_root ()
 {
   // redirect to root
-  window.location.assign("http://127.0.0.1:3000");
+  window.location.assign("http://95.85.16.163:8080");
 }
 
 /*
@@ -90,7 +90,7 @@ function get_cookie(c_name)
 }
 */
 // Define a socket.io client object
-var socket = io.connect('http://localhost:3000/');
+var socket = io.connect('http://95.85.16.163:8080/');
 
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
