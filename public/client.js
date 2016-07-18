@@ -47,7 +47,7 @@ function ready_image_callback (data)
 
 function ready_quote_callback (data)
 {  
-  if(data.text.length <= 90)
+  if(data.text.length <= 120)
   {  var quote = document.createElement('p');
     quote.innerHTML = data.text;
 
@@ -120,7 +120,7 @@ var socket = io.connect('http://localhost:3000/');
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
 socket.on('quote-ready', (data) => {
-  if(data.text.length > 90)
+  if(data.text.length > 120)
   {
     //socket.emit('quote-request');
     //return;
