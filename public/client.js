@@ -1,16 +1,17 @@
 // setup root url using a regexp to parse the current location
 var url = '';
 
-var regex = new RegExp(/[0-9]+.[0-9]+.[0-9]+.[0-9]+:[0-9]{4}/i);
+var regex = new RegExp(/[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}:[0-9]{4}/i);
 url = 'http://' + regex.exec(window.location.href);
 
 /* functions */
 function request_tweet (callback)
 {
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
+
   if (img === undefined)
   {
-    spawn_msg('Image is missing...', { body: '...new image request send'});
+    spawn_msg('Image is missing...', { icon: 'shubble.ico', body: '...new image request send'});
     callback(null);
   }
 
@@ -46,7 +47,7 @@ function ready_image_callback (data)
   else
   {
     var pic = document.getElementById('pic');
-    pic.innerHTML = 'Opssssss!';
+    pic.innerHTML = 'ooops!';
   }
 };
 
@@ -80,9 +81,9 @@ function ready_name_callback (data)
 function ready_tweet_callback (err)
 {
   if (err)
-    spawn_msg('Cannot post tweet', null);
+    spawn_msg('Cannot post tweet', { icon: 'shubble.ico' });
   else
-    spawn_msg('Tweet posted!', { body: document.getElementById('user').getElementsByTagName('p')[0].innerHTML });
+    spawn_msg('Tweet posted!', { icon: 'shubble.ico', body: document.getElementById('user').getElementsByTagName('p')[0].innerHTML });
 };
 
 function redirect_root ()
@@ -126,25 +127,16 @@ socket.on('image-ready', ready_image_callback);
 socket.on('quote-ready', (data) => {
   if(data.text.length > 120)
   {
-    //socket.emit('quote-request');
-    //return;
-
-    
-    console.log(data.text);
-    console.log(data.text.length);
-
-    var to = setTimeout(function() {
+    var to = setTimeout(function()
+    {
       document.getElementById('quote').innerHTML = '';
       socket.emit('quote-request');
-      //return;
-      // this code runs 3 seconds after the page loads
       clearTimeout(to);
     }, 500);
-    
   }
-
   ready_quote_callback(data);
 });
+
 socket.on('name-ready', ready_name_callback);
 socket.on('tweet-ready', ready_tweet_callback);
 
