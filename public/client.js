@@ -1,3 +1,11 @@
+// setup root url using a regexp to parse the current location
+var url = '';
+
+var regex = new RegExp(/[0-9]+.[0-9]+.[0-9]+.[0-9]+:[0-9]{4}/i);
+url = 'http://' + regex.exec(window.location.href);
+
+/* functions */
+
 function request_tweet (socket, callback)
 {
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
@@ -69,7 +77,7 @@ function ready_tweet_callback (err)
 function redirect_root ()
 {
   // redirect to root
-  window.location.assign("http://95.85.16.163:8080");
+  window.location.assign(url);
 }
 
 /*
@@ -90,7 +98,7 @@ function get_cookie(c_name)
 }
 */
 // Define a socket.io client object
-var socket = io.connect('http://95.85.16.163:8080/');
+var socket = io.connect(url);
 
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
