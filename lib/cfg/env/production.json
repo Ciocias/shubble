@@ -1,12 +1,26 @@
 {
-  "host": "http://shubble.herokuapp.com",
-  "port": 5798,
+  "host": "http://95.85.16.163",
+  "port": 8080,
+
+  "cookie":
+  {
+    "maxAge": 900000,
+    "httpOnly": true
+  },
 
   "orion":
   {
-    "url": "http://shubble.herokuapp.com",
+    "url": "http://127.0.0.1",
     "port": 1026,
     "version": "v1"
+  },
+
+  "twitter":
+  {
+    "request_token": "https://api.twitter.com/oauth/request_token",
+    "redirect": "https://api.twitter.com/oauth/authenticate?oauth_token=",
+    "request_access_token": "https://api.twitter.com/oauth/access_token",
+    "hashtag": " #shubble"
   },
 
   "log": 
@@ -27,7 +41,7 @@
     
     "console": 
     {
-      "level": "error"
+      "level": "debug"
     },
     
     "error":
