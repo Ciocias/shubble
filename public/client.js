@@ -3,7 +3,7 @@ function request_tweet (callback)
   var img = document.getElementById('pic').getElementsByTagName('img')[0];
   if (img === undefined)
   {
-    alert('Image is missing, reloading...');
+    spawn_msg('Image is missing...', { body: '...new image request send'});
     callback(null);
   }
 
@@ -20,39 +20,52 @@ function request_tweet (callback)
 
 function ready_image_callback (data)
 {
-  var title = document.createElement('h3');
-  title.innerHTML = data.alt;
-  
-  var image = document.createElement('img');
-  image.setAttribute('src', data.src);
-  image.setAttribute('alt', data.alt);
-  image.setAttribute('class', 'w3-animate-zoom');
-  
-  var pic = document.getElementById('pic');
+  if (data !== null)
+  {
+    var pic = document.getElementById('pic');
+    pic.innerHTML = data.alt + '<br>';
+    //var title = document.createElement('h3');
+    //title.innerHTML = data.alt;
+    
+    var image = document.createElement('img');
+    image.setAttribute('src', data.src);
+    image.setAttribute('alt', data.alt);
+    image.setAttribute('class', 'w3-animate-zoom');
+    
 
-  pic.appendChild(title);
-  pic.appendChild(image);
+    //pic.appendChild(title);
+    pic.appendChild(image);
+  }
+  else
+  {
+    var pic = document.getElementById('pic');
+    pic.innerHTML = 'Opssssss!';
+  }
+
+
 };
 
 function ready_quote_callback (data)
 {  
-  var quote = document.createElement('p');
-  quote.innerHTML = data.text;
+  if(data.text.length <= 90)
+  {  var quote = document.createElement('p');
+    quote.innerHTML = data.text;
 
-  var author = document.createElement('p');
-  //link.setAttribute('href', data.link);
-  author.innerHTML = data.author;
+    var author = document.createElement('p');
+    //link.setAttribute('href', data.link);
+    author.innerHTML = data.author;
 
-  var quote_span = document.getElementById('quote');
+    var quote_span = document.getElementById('quote');
 
-  quote_span.appendChild(quote);
-  quote_span.appendChild(author);
+    quote_span.appendChild(quote);
+    quote_span.appendChild(author);
+}
 };
 
 function ready_name_callback (data)
 {
 
-  var screen_name = (document.createElement('p'));
+  var screen_name = document.createElement('p');
   screen_name.setAttribute('align', 'right');
   screen_name.innerHTML = '@' + data.screen_name;
 
@@ -63,15 +76,25 @@ function ready_name_callback (data)
 function ready_tweet_callback (err)
 {
   if (err)
-    alert("Cannot post tweet");
+    spawn_msg('Cannot post tweet', null);
   else
-    alert("Tweet posted!");
+    spawn_msg('Tweet posted!', { body: document.getElementById('user').getElementsByTagName('p')[0].innerHTML });
 };
 
 function redirect_root ()
 {
   // redirect to root
   window.location.assign("http://127.0.0.1:3000");
+}
+
+function spawn_msg (message, options)
+{
+  if (Notification.permission == 'granted'){
+    var n = new Notification(message, options);
+    setTimeout(n.close.bind(n), 4000);
+  }
+  else
+    alert(message);
 }
 
 /*
@@ -97,21 +120,23 @@ var socket = io.connect('http://localhost:3000/');
 // Data ready callbacks
 socket.on('image-ready', ready_image_callback);
 socket.on('quote-ready', (data) => {
-  if(data.text.length > 120)
+  if(data.text.length > 90)
   {
-    socket.emit('quote-request');
-    return;
+    //socket.emit('quote-request');
+    //return;
 
-    /*
+    
     console.log(data.text);
     console.log(data.text.length);
 
-    setTimeout(function() {
+    var to = setTimeout(function() {
+      document.getElementById('quote').innerHTML = '';
       socket.emit('quote-request');
-      return;
+      //return;
       // this code runs 3 seconds after the page loads
-    }, 3000);
-    */
+      clearTimeout(to);
+    }, 500);
+    
   }
 
   ready_quote_callback(data);
@@ -129,8 +154,8 @@ socket.emit('name-request');
 // Reload image button
 var reload_image = document.createElement('button');
 
-reload_image.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
-reload_image.innerHTML = 'I';
+reload_image.setAttribute('class', 'w3-btn w3-white w3-border w3-border-blue w3-round-xlarge w3-left');
+reload_image.innerHTML = 'Image';
 
 reload_image.addEventListener('click', () => {
   document.getElementById('pic').innerHTML = '';
@@ -140,8 +165,8 @@ reload_image.addEventListener('click', () => {
 // Reload quote button
 var reload_quote = document.createElement('button');
 
-reload_quote.setAttribute('class', 'w3-btn-floating-large w3-left w3-cyan');
-reload_quote.innerHTML = 'Q';
+reload_quote.setAttribute('class', 'w3-btn w3-white w3-border w3-border-blue w3-round-xlarge w3-left');
+reload_quote.innerHTML = 'Quote';
 
 reload_quote.addEventListener('click', () => {
   document.getElementById('quote').innerHTML = '';
@@ -151,9 +176,9 @@ reload_quote.addEventListener('click', () => {
 // Home button
 var home = document.createElement('button');
 
-home.setAttribute('class', 'w3-btn-floating-large w3-center w3-cyan');
+home.setAttribute('class', 'w3-btn w3-white w3-border w3-border-blue w3-round-xlarge w3-center');
 home.style.visibility = 'hidden';
-home.innerHTML = 'H';
+home.innerHTML = 'Home';
 
 home.addEventListener('click', () => {
   redirect_root();
@@ -162,19 +187,21 @@ home.addEventListener('click', () => {
 // Share button
 var share = document.createElement('button');
 
-share.setAttribute('class', 'w3-btn-floating-large w3-right w3-cyan');
-share.innerHTML = 'S';
+share.setAttribute('class', 'w3-btn w3-white w3-border w3-border-blue w3-round-xlarge w3-right');
+share.innerHTML = 'Share';
 
 share.addEventListener('click', () => {
   request_tweet((data) => {
     if (data)
     {
       socket.emit('tweet-request', data);
-      share.style.visibility = 'hidden';
-      reload_image.style.visibility = 'hidden';
-      reload_quote.style.visibility = 'hidden';
+      share.disabled = true;
+      reload_image.disabled = true;
+      reload_quote.disabled = true;
       home.style.visibility = 'visible';
     }
+    else
+      socket.emit('image-request');
   });
 });
 
@@ -184,3 +211,14 @@ footer.appendChild(reload_image);
 footer.appendChild(reload_quote);
 footer.appendChild(share);
 footer.appendChild(home);
+
+// request permission on page load
+document.addEventListener('DOMContentLoaded', function ()
+{
+  if (!Notification) {
+    alert('Desktop notifications not available in your browser. Try Chromium.'); 
+    return;
+  }
+  if (Notification.permission !== "granted")
+    Notification.requestPermission();
+});
